@@ -1,26 +1,35 @@
 # AI_Chat_Log_Summarizer
 
-## What will I be doing:
-✅ Step 1: Read Chat Log
-    -Read each line from chat.txt
+## 📄 Project Overview
+This Python project summarizes chat logs between a user and an AI. It extracts key insights like total messages, common topics, and frequently used keywords using TF-IDF (Term Frequency-Inverse Document Frequency).
 
-    -Store User: messages in user_msgs
+## ✅ Features
+- Reads chat logs.
+- Separates messages by User and AI.
+- Counts messages (User, AI, Total).
+- Extracts top 5 keywords using TF-IDF.
+- Prints a simple summary of the conversation.
+- Supports both single and multiple file summarization.
 
-    -Store AI: messages in ai_msgs
 
-✅ Step 2: Count Messages
-    -Count total messages
+## 🛠️ Requirements
+Python 3.6+
+scikit-learn (for TF-IDF keyword extraction)
+Install it with:
+    pip install scikit-learn
 
-    -Count how many from User and how many from AI
 
-✅ Step 3: Keyword Extraction
-    -Combine all messages
+## 🚀 How to Run
+1. Place all your chat log `.txt` files inside a folder (e.g. `AI_Chat_Log_Summarizer`).
+2. Make sure the chat logs follow the format:
+   User: Hello!
+   AI: Hi! How can I help?
+3. Update the folder path in the script.
+4. Run the script using: python your_script_name.py
+5. Choose an option:
+   - 1 to summarize a single file
+   - 2 to summarize all chat logs in the folder
 
-    -Remove stopwords using nltk
 
-    -Extract top 5 keywords using collections.Counter
-
-✅ Step 4: Generate Summary
-
-✅ Step 5: Save Summary
-
+### - Author
+Mustafizur Rahman
