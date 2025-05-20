@@ -1,4 +1,3 @@
-import os
 import re
 from collections import Counter
 import nltk
@@ -22,16 +21,10 @@ def chat_file(path):
                 ai.append(line[3:].strip())
     return user, ai
 
-user, ai = chat_file(r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt")
-
 
 # Counting the message
 def count_messages(user, ai):
     return len(user), len(ai), len(user) + len(ai)
-
-#user_len, ai_len, total = count_messages(user, ai)
-# print(f"This is user len: {user_len}\n This is ai len: {ai_len}\n This is total message: {total}")
-
 
 
 # This part is for keyword extraction 
@@ -44,9 +37,6 @@ def extract_keywords(messages, top_n=5):
     return word_freq.most_common(top_n)
 
 
-keywords = extract_keywords(user + ai)
-# print(keyword)
-
 # Generating Summary 
 def generate_summary(user, ai, keywords):
     user_count, ai_count, total = count_messages(user, ai)
@@ -57,8 +47,15 @@ def generate_summary(user, ai, keywords):
     summary.append(f"- The conversation had {total} exchanges.")
     summary.append(f"- The user asked mainly about {keywords[0][0].capitalize()} and its uses.")
     summary.append(f"- Most common keywords: {top_topics}.")
-    
-    print("\n".join(summary))
-    return summary
+    # print("\n".join(summary))
+    return "\n".join(summary)
 
-generate_summary(user, ai, keywords)
+
+# final call of all these function above 
+file_path = r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt"
+
+user, ai = chat_file(r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt")
+keywords = extract_keywords(user + ai)
+summary_lines = generate_summary(user, ai, keywords)
+
+print(summary_lines)
