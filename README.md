@@ -13,9 +13,9 @@ This Python project summarizes chat logs between a user and an AI. It extracts k
 
 
 ## 🛠️ Requirements
-Python 3.6+
-scikit-learn (for TF-IDF keyword extraction)
-Install it with:
+- Python 3.6+
+- scikit-learn (for TF-IDF keyword extraction)
+- Install it with:
     pip install scikit-learn
 
 
