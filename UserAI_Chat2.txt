@@ -1,0 +1,16 @@
+User: Hi AI, I’m interested in web development.
+AI: That’s great! Web development involves creating websites and web applications.
+User: What languages should I learn first?
+AI: HTML, CSS, and JavaScript are the fundamental languages for front-end development.
+User: What’s front-end development?
+AI: It’s the part of a website that users interact with directly.
+User: And back-end?
+AI: Back-end is the server-side, handling data, authentication, and business logic.
+User: Which frameworks are popular?
+AI: React for front-end and Django or Node.js for back-end are very popular.
+User: Can I connect a website to a database?
+AI: Yes, databases like MySQL, PostgreSQL, or MongoDB can be integrated via back-end.
+User: How long does it take to build a website?
+AI: A simple one can take a few hours. Complex sites may take weeks or months.
+User: Thank you!
+AI: You’re welcome! Happy coding!
