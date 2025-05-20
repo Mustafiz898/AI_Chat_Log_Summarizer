@@ -1,10 +1,12 @@
 import re
 from collections import Counter
-import nltk
+# import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 # Ensuring stopwords are available
-nltk.download('stopwords')
-from nltk.corpus import stopwords
+# nltk.download('stopwords')
+# from nltk.corpus import stopwords
 
 
 # Reading chat file which contains User and AI conversation
@@ -28,13 +30,27 @@ def count_messages(user, ai):
 
 
 # This part is for keyword extraction 
+# def extract_keywords(messages, top_n=5):
+#     stop_words = set(stopwords.words('english'))
+#     all_words = ' '.join(messages).lower()
+#     words = re.findall(r'\b\w+\b', all_words)
+#     filtered_words = [w for w in words if w not in stop_words]
+#     word_freq = Counter(filtered_words)
+#     return word_freq.most_common(top_n)
+
+
+##### This is TF-IDF approach 
 def extract_keywords(messages, top_n=5):
-    stop_words = set(stopwords.words('english'))
-    all_words = ' '.join(messages).lower()
-    words = re.findall(r'\b\w+\b', all_words)
-    filtered_words = [w for w in words if w not in stop_words]
-    word_freq = Counter(filtered_words)
-    return word_freq.most_common(top_n)
+    joined_text = ' '.join(messages)
+    
+    vectorizer = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = vectorizer.fit_transform([joined_text])
+
+    scores = zip(vectorizer.get_feature_names_out(), tfidf_matrix.toarray()[0])
+    sorted_scores = sorted(scores, key=lambda x: x[1], reverse=True)
+
+    return sorted_scores[:top_n]
+
 
 
 # Generating Summary 
@@ -52,8 +68,6 @@ def generate_summary(user, ai, keywords):
 
 
 # final call of all these function above 
-file_path = r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt"
-
 user, ai = chat_file(r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt")
 keywords = extract_keywords(user + ai)
 summary_lines = generate_summary(user, ai, keywords)
