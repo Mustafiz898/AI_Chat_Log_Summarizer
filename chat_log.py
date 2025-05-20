@@ -1,12 +1,7 @@
 import re
+import os
 from collections import Counter
-# import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-
-# Ensuring stopwords are available
-# nltk.download('stopwords')
-# from nltk.corpus import stopwords
 
 
 # Reading chat file which contains User and AI conversation
@@ -14,7 +9,6 @@ def chat_file(path):
     user = []
     ai = []
     with open(path, 'r') as f:
-        # print(f.read())
         for line in f:
             line = line.strip()
             if line.startswith('User:'):
@@ -30,15 +24,6 @@ def count_messages(user, ai):
 
 
 # This part is for keyword extraction 
-# def extract_keywords(messages, top_n=5):
-#     stop_words = set(stopwords.words('english'))
-#     all_words = ' '.join(messages).lower()
-#     words = re.findall(r'\b\w+\b', all_words)
-#     filtered_words = [w for w in words if w not in stop_words]
-#     word_freq = Counter(filtered_words)
-#     return word_freq.most_common(top_n)
-
-
 ##### This is TF-IDF approach 
 def extract_keywords(messages, top_n=5):
     joined_text = ' '.join(messages)
@@ -59,17 +44,44 @@ def generate_summary(user, ai, keywords):
     top_topics = ", ".join([word.capitalize() for word, _ in keywords])
     
     summary = []
-    summary.append("Summary:")
     summary.append(f"- The conversation had {total} exchanges.")
     summary.append(f"- The user asked mainly about {keywords[0][0].capitalize()} and its uses.")
     summary.append(f"- Most common keywords: {top_topics}.")
-    # print("\n".join(summary))
     return "\n".join(summary)
 
 
-# final call of all these function above 
-user, ai = chat_file(r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer\UserAI_Chat.txt")
-keywords = extract_keywords(user + ai)
-summary_lines = generate_summary(user, ai, keywords)
+# Summary for a single file 
+def summarize_single_file(folder_path, filename):
+    file_path = os.path.join(folder_path, filename)
+    user, ai = chat_file(file_path)
+    keywords = extract_keywords(user + ai)
+    summary = generate_summary(user, ai, keywords)
 
-print(summary_lines)
+    print(f"\nSummary for {filename}:\n")
+    print(summary)
+
+
+# Summarization of All Files in the Folder
+def summarize_folder(folder_path):
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.txt'):
+            summarize_single_file(folder_path, filename)
+
+
+# User Choice Logic
+
+if __name__ == "__main__":
+    folder_path = r"C:\Users\Mustafizur Rahman\Desktop\AI_Chat_Log_Summarizer"
+
+    choose = input("Enter 1 for single file\nEnter 2 for all files in folder: ").strip()
+
+    if choose == '1':
+        fileName = input("Enter file name (with .txt): ").strip()
+        if fileName in os.listdir(folder_path):
+            summarize_single_file(folder_path, fileName)
+        else:
+            print("File not found!")
+    elif choose == '2':
+        summarize_folder(folder_path)
+    else:
+        print("Invalid choice.")
